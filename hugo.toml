@@ -1,4 +1,4 @@
-baseURL = 'https://YOUR_USERNAME.github.io/yang-blog/'
+baseURL = 'https://songyang0716.github.io/yang-blog/'
 languageCode = 'en-us'
 title = 'Yang Song'
 theme = 'hugo-theme-til'
