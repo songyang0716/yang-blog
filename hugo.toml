@@ -1,0 +1,29 @@
+baseURL = 'https://YOUR_USERNAME.github.io/yang-blog/'
+languageCode = 'en-us'
+title = 'Yang Song'
+theme = 'hugo-theme-til'
+author = 'Yang Song'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[[menus.main]]
+name = 'About'
+pageRef = '/about'
+weight = 10
+
+[[menus.main]]
+name = 'Posts'
+pageRef = '/posts'
+weight = 20
+
+[[menus.main]]
+name = 'Notes'
+pageRef = '/notes'
+weight = 30
+
+[params]
+linkedin = 'https://www.linkedin.com/in/yang-song-516350b2/'
+email = 'yangsongapply@gmail.com'
