@@ -4,7 +4,7 @@ description: "Learn more about Yang Song"
 ---
 
 <div style="text-align: center; margin: 2rem 0;">
-  <img src="/images/profile.jpg" alt="Yang Song" style="border-radius: 50%; max-width: 200px; width: 200px; height: 200px; object-fit: cover; display: inline-block;" />
+  <img src="images/profile.jpg" alt="Yang Song" style="border-radius: 50%; max-width: 200px; width: 200px; height: 200px; object-fit: cover; display: inline-block;" />
 </div>
 
 Hi, I'm Yang Song 👋, an Applied Scientist at Yelp working on ads auction and bidding optimization, with a focus on applied machine learning, optimization and experimentation under real-world constraints. 
