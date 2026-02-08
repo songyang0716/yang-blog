@@ -52,12 +52,38 @@ With this relevance signal, the key question becomes: how much weight should eac
    
    *After adding the relevance term, the overall seeker job relevance dispersion reduces, showing more consistent relevance across different user segments.*
 
-2. Dynamic Optimization
+2. **Dynamic Optimization**
+    The causal estimation approach helps determine relevance weights that, on average, achieve a desired relevance level at the request level. However, this raises a deeper question: does simply hitting a relevance target actually maximize long-term revenue from job seekers? Here, long-term revenue can be understood as future ad revenue driven by continued engagement—such as clicks, applications, or other monetizable interactions that result from a seeker’s ongoing use of the platform.
+
+    This naturally leads to the second approach proposed in the paper: a reinforcement learning framework. In this setup, the relevance weight is treated as the action, while the state includes signals such as bids, relevance scores, and other job posting and seeker attributes. The goal of the RL framework is to learn an optimal policy for selecting relevance weights that maximizes long-term value rather than short-term outcomes.
+
+    $$\sigma^{(m+1)}(x)=\arg\max_{\sigma(x)}\{\text{Gain}(x;\sigma(x))+\delta\mathbb{E}[V^{(m)}(x')\mid x,\sigma(x)]\}$$
+
+    Here $\sigma(x)$ represents the policy, which determines the relevance weight to choose given the current state x. The state vector includes signals such as bids, estimated relevance scores, and other attributes related to the job seeker and job postings.
+
+
 
 ## Auction Design
 
-## Comments
+The authors point out that the greedy approach, sorting jobs by a single ranking score and assigning them to slots from top to bottom is not optimal when multiple positions are involved. Instead, they propose using position-aware scores, where each job listing has a different score for each possible slot. Formally, a job $j$ has a score $s\_{ijk} = S(b\_{ij}\cdot \pi\_{ijk},\; w\_i \cdot \mu\_{ijk})$ when shown in position $k$.
 
- - If overall relevance dispersion is reduced, how does this not hurt short-term platform revenue?
- - what kind of relevance metric should the platform actually track?
+Determining the optimal assignment of jobs to slots now requires solving a bipartite matching problem, which has a time complexity of $O(n^3)$. While there are approximation methods that can reduce this cost, the approach is still more expensive than greedy sorting. Through simulation, the authors show that using bipartite matching improves the average relevance of the search results compared to the greedy baseline.
 
+![Comparison of relevance score over greedy and bipartite matching](../../images/posts/jobs-marketplace-graph_2.png)
+
+
+## My Takeaway
+
+- The causal estimation framework is relatively straightforward to implement and can work with a wide range of relevance metrics. This makes it more practical than framing the problem as a constrained optimization problem, where the decision variable must be explicitly tied to the relevance constraint. Rather than assuming a parametric relationship upfront, the framework learns this relationship directly from randomized experiments and extrapolates from observed data.
+
+- While bipartite matching outperforms the greedy approach in terms of relevance, it comes with additional costs. Implementing this method requires building models to estimate position-aware pCTR and eRelevance for every candidate across all slots, which introduces significant engineering complexity. Moreover, it makes incorporating custom business rules more challenging—for example, constraints like limiting the number of consecutive promoted jobs. Such rules are easy to enforce in greedy ranking but much harder to integrate into a bipartite matching framework.
+
+- The causal estimation approach reminds me of heterogeneous treatment effect estimation, where a similar goal is to understand how different values of Seeker-Weight affect relevance outcomes. In principle, this estimation could be pushed to a more granular level—for example, by modeling the baseline parameter $z_g$ as a function of job seeker attributes, such as profile information or past behavior, rather than relying solely on coarse user segments.
+
+## My Questions
+
+- Given the complexity of training reinforcement learning models in a live marketplace, it is reasonable to question how well the RL approach performs in practice. Job marketplaces are highly dynamic: bids evolve over time, and job campaigns actively compete with one another. The paper does not explicitly model these competitive interactions in the RL formulation, which raises questions about how robust the learned policies would be under real-world dynamics.
+ 
+- How does adding the relevance term avoid hurting short-term platform revenue?
+
+- What relevance metric should the platform actually track to guide these decisions?
