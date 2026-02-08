@@ -17,7 +17,7 @@ A common way to compute the ranking score is:
 
 $$s_{ij} = S(b_{ij}, \hat{\pi}_{ij})$$
 
-where $\hat{\pi}_{ij}$ is the estimated click-through rate of job $j$ for seeker $i$, and $b_{ij}$ is the bid value. For example, S function could be just a multiplication of the two variable, which returns the expected revenue per impression level, and this ranking will prioritize the revenue.
+where $\hat{\pi}\_{ij}$ is the estimated click-through rate of job $j$ for seeker $i$, and $b\_{ij}$ is the bid value. For example, S function could be just a multiplication of the two variable, which returns the expected revenue per impression level, and this ranking will prioritize the revenue.
 
 The authors point out two main limitations of this ranking function:
 
