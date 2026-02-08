@@ -25,7 +25,10 @@ The authors point out two main limitations of this ranking function:
 
 2. The predicted click-through rate is position-agnostic. It does not account for the fact that the same job can attract very different levels of attention depending on where it appears in the ranking. A job shown at the top of the page naturally receives more clicks than one shown further down. By greedily sorting candidates based on this position-unaware score, the system can end up with suboptimal job layouts across multiple slots.
 
+To address these two issues, the authors introduce two improvements. First, they add an explicit relevance component to the ranking score to better capture how well a job $j$ matches a particular seeker $i$. Second, they propose position-aware auction scores, where the score of a job also depends on the position $k$ at which it is shown, acknowledging that a job’s attractiveness varies across different slots on the page.
+
 ## Innovations
+
 
 ## Results
 
