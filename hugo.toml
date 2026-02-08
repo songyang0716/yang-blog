@@ -22,6 +22,7 @@ weight = 30
 [params]
 linkedin = 'https://www.linkedin.com/in/yang-song-516350b2/'
 email = 'yangsongapply@gmail.com'
+math = true
 
 [params.home]
 showRecentPosts = false
