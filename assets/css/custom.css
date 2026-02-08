@@ -21,6 +21,7 @@
 
 /* Make post content more compact */
 .prose {
+  font-family: Georgia, 'Times New Roman', serif;
   font-size: 0.95rem;
   line-height: 1.2;
   max-width: 80ch;
