@@ -51,3 +51,17 @@ img {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
 }
+
+/* Make posts list more compact */
+.not-prose article {
+  line-height: 1.3;
+}
+
+.not-prose article h3 {
+  line-height: 1.2;
+}
+
+.not-prose article .text-sm {
+  line-height: 1.4;
+  margin-top: 0.25rem;
+}
