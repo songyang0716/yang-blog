@@ -13,7 +13,8 @@ img {
 /* Make post content more compact */
 .prose {
   font-size: 0.95rem;
-  line-height: 1.5;
+  line-height: 1.2;
+  max-width: 80ch;
 }
 
 .prose p {
