@@ -2,7 +2,7 @@
 title: "Trading off Relevance and Revenue in the Jobs Marketplace: Estimation, Optimization and Auction Design"
 date: 2026-01-10
 description: "A paper review on balancing relevance and revenue in LinkedIn's jobs marketplace"
-tags: ["ads-allocation", "optimization", "paper-review"]
+tags: ["ads-allocation", "optimization", "auction", "paper-review"]
 ---
 
 > **Paper Review**: *Trading off Relevance and Revenue in the Jobs Marketplace: Estimation, Optimization and Auction Design*
@@ -27,21 +27,37 @@ The authors point out two main limitations of this ranking function:
 
 To address these two issues, the authors introduce two improvements. First, they add an explicit relevance component to the ranking score to better capture how well a job $j$ matches a particular seeker $i$. Second, they propose position-aware auction scores, where the score of a job also depends on the position $k$ at which it is shown, acknowledging that a job’s attractiveness varies across different slots on the page.
 
-## Innovations
+## Relevance-Revenue Tradeoff
 
-The authors introduce an explicit relevance term, $\hat{\mu}\_{ij}$, into the ranking score. This model-based estimate captures how relevant job $j$ is to seeker $i$. It represents the quality of the match from the seeker’s perspective, capturing how well a job aligns with the seeker’s preferences and qualifications. (The paper does not go into detail about how this relevance model is built. In practice, this would likely involve deeper signals such as job applications, user profiles, and historical interactions, possibly combined with human or LLM-based evaluation for fine-tuning.)
+The authors introduce an explicit relevance term, $\hat{\mu}\_{ij}$, into the ranking score. This model-based estimate captures how relevant job $j$ is to seeker $i$. It represents the quality of the match from the seeker’s perspective, capturing how well a job aligns with the seeker’s preferences and qualifications. (The paper does not go into detail about how this relevance model is built. In practice, this would likely rely on richer signals such as user profiles, and their current job position's descriptions, potentially combined with human or LLM-based evaluation for fine-tuning.)
 
-With this relevance signal, the key question becomes: how much weight should each seeker's relevance receive? The augmented ranking score is:
+The augmented ranking score is:
 
 $$s\_{ij} = S\big(b\_{ij} \cdot \hat{\pi}\_{ij},\; w\_i \cdot \hat{\mu}\_{ij}\big)$$
 
-where $w\_i$ is the seeker-weight controlling the tradeoff between monetization and relevance. The authors describe two approaches for estimating these seeker-weights.
+where $w\_i$ is the seeker-weight controlling the tradeoff between monetization and relevance. 
+With this relevance signal, the key question becomes: how much weight should each seeker's relevance receive? The authors describe two approaches for estimating these seeker-weights.
 
+1. **Causal Estimation**
 
-## Results
+   The authors model how relevance responds to changes in Seeker-Weight using a simple parametric function:
 
+   $$Rel_g = F_g(\text{Seeker-Weight}) = z_g \cdot \text{Seeker-Weight}^{\alpha}$$
+
+   This equation describes the relationship between the Seeker-Weight and the observed relevance metric for each user segment $g$. The parameter $z_g$ is learned separately for each segment and captures baseline relevance, while $\alpha$ is a globally shared elasticity parameter that models diminishing returns.
+
+    The basic idea is to fit this response curve using randomized experiments, where different Seeker-Weight values are assigned to different cohorts. Once the parameters are learned, the model can be inverted: given a desired relevance outcome, the corresponding Seeker-Weight can be computed directly. This allows the platform to personalize relevance weights across user segments, helping maintain a target level of relevance for each group. The authors do not specify a concrete relevance metric or target in the paper; instead, relevance can be defined in whatever way best fits the platform’s goals—for example, average job relevance across the page or a weighted version that emphasizes top-ranked results.
+
+   ![Causal estimation curve](../../images/posts/jobs-marketplace-graph_1.png)
+   
+   *After adding the relevance term, the overall seeker job relevance dispersion reduces, showing more consistent relevance across different user segments.*
+
+2. Dynamic Optimization
+
+## Auction Design
 
 ## Comments
 
-
+ - If overall relevance dispersion is reduced, how does this not hurt short-term platform revenue?
+ - what kind of relevance metric should the platform actually track?
 

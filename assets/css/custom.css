@@ -1,5 +1,5 @@
-/* Profile image styling */
-img {
+/* Profile image styling - only apply to homepage */
+.home img {
   border-radius: 50%;
   max-width: 200px;
   width: 100%;
@@ -8,6 +8,15 @@ img {
   display: block;
   object-fit: cover;
   aspect-ratio: 1 / 1;
+}
+
+/* Post images - normal display */
+.prose img {
+  border-radius: 0;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto;
+  display: block;
 }
 
 /* Make post content more compact */
