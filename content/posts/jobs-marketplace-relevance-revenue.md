@@ -33,7 +33,7 @@ The authors introduce an explicit relevance term, $\hat{\mu}\_{ij}$, into the ra
 
 With this relevance signal, the key question becomes: how much weight should each seeker's relevance receive? The augmented ranking score is:
 
-$$s_{ij} = S\big(b_{ij} \cdot \hat{\pi}_{ij},\; w_i \cdot \hat{\mu}_{ij}\big)$$
+$$s\_{ij} = S\big(b\_{ij} \cdot \hat{\pi}\_{ij},\; w\_i \cdot \hat{\mu}\_{ij}\big)$$
 
 where $w\_i$ is the seeker-weight controlling the tradeoff between monetization and relevance. The authors describe two approaches for estimating these seeker-weights.
 
