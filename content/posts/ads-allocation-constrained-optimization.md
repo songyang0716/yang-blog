@@ -1,6 +1,6 @@
 ---
 title: "Ads Allocation in Feed via Constrained Optimization"
-date: 2026-01-20
+date: 2024-06-20
 description: "A paper review on LinkedIn's approach to blending organic and ad content in feeds"
 tags: ["ads-allocation", "optimization", "paper-review"]
 ---
