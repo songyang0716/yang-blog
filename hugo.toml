@@ -10,11 +10,6 @@ author = 'Yang Song'
       unsafe = true
 
 [[menus.main]]
-name = 'About'
-pageRef = '/about'
-weight = 10
-
-[[menus.main]]
 name = 'Posts'
 pageRef = '/posts'
 weight = 20
