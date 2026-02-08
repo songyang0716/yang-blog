@@ -29,7 +29,7 @@ To address these two issues, the authors introduce two improvements. First, they
 
 ## Innovations
 
-The authors introduce an explicit relevance term, $\hat{\mu}\_{ij}$, into the ranking score. This model-based estimate captures how relevant job $j$ is to seeker $i$. It represents the quality of the match from the seeker’s perspective, capturing how well a job aligns with the seeker’s preferences and qualifications. (The paper doesn't detail how this relevance model is built, but it likely uses signals like job applications, user profiles, and historical interactions.)
+The authors introduce an explicit relevance term, $\hat{\mu}\_{ij}$, into the ranking score. This model-based estimate captures how relevant job $j$ is to seeker $i$. It represents the quality of the match from the seeker’s perspective, capturing how well a job aligns with the seeker’s preferences and qualifications. (The paper does not go into detail about how this relevance model is built. In practice, this would likely involve deeper signals such as job applications, user profiles, and historical interactions, possibly combined with human or LLM-based evaluation for fine-tuning.)
 
 With this relevance signal, the key question becomes: how much weight should each seeker's relevance receive? The augmented ranking score is:
 
