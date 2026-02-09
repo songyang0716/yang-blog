@@ -24,6 +24,9 @@ For these reasons, the paper advocates for a two-stage architecture with a light
 
 ![Overview to rank organic content and ads together](../../images/posts/ads-allocation-constrained-optimization_1.png)
 
+The authors also introduce business guardrails to prevent unintended member experiences. These guardrails take the form of heuristic constraints, such as (1) a top-slot constraint, which restricts ads from appearing within the first x positions of the feed, and (2) a minimum-gap constraint, which enforces a minimum separation between two consecutive ads.
+
+
 ## My Takeaway
 
 ## My Questions
