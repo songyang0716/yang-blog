@@ -1,6 +1,6 @@
 ---
 title: "Trading off Relevance and Revenue in the Jobs Marketplace: Estimation, Optimization and Auction Design"
-date: 2026-01-10
+date: 2025-10-10
 description: "A paper review on balancing relevance and revenue in LinkedIn's jobs marketplace"
 tags: ["ads-allocation", "optimization", "auction", "paper-review"]
 ---
