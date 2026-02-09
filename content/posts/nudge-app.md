@@ -1,7 +1,7 @@
 ---
 title: "Nudge: A Spaced Repetition Study Reminder"
 date: 2026-02-08
-description: "A personal project to help maintain and improve knowledge through scientifically-proven review intervals"
+description: "A personal project to track learning notes and remind me of the next review time."
 tags: ["project", "app", "learning","vibe-coding"]
 ---
 
