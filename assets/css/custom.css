@@ -24,8 +24,12 @@
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 0.95rem;
   line-height: 1.2;
-  max-width: 80ch;
   color: #1a1a1a;
+}
+
+/* Make content wider */
+article.main .prose {
+  max-width: 110ch !important;
 }
 
 .prose p {

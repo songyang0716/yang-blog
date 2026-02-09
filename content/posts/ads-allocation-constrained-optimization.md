@@ -5,89 +5,25 @@ description: "A paper review on LinkedIn's approach to blending organic and ad c
 tags: ["ads-allocation", "optimization", "paper-review"]
 ---
 
-> **Paper**: *Ads Allocation in Feed via Constrained Optimization* (LinkedIn, 2020)
+> **Paper Review**: *Ads Allocation in Feed via Constrained Optimization* (LinkedIn, 2020)
 
 ## The Problem
+Ad allocation is typically the final step of a recommender system. At this stage, organic content and ads are mixed together and delivered to users. This paper focuses on improving this final allocation process. It addresses two key subproblems. First, how should we assign comparable values to organic content and ads, given that they are usually ranked separately and optimized for different objectives? To rank them together, their scores need to be aligned on the same scale. Second, once these items share a common ranking score, how can we allocate them across available slots in a way that maximizes the total value of the final layout?
 
-**Blending** merges two ranked lists into one feed:
-- **Organic items**: optimized for engagement/user experience
-- **Ads**: optimized for relevance + revenue
+This paper focuses specifically on addressing the second subproblem, and the application is theLinkedIn feed.
 
-Two challenges:
-1. **Calibration**: Make scores comparable across different models
-2. **Allocation**: Decide where ads should go to optimize business value without harming UX
+## Background
 
-This paper focuses on allocation and treats calibration separately.
+The authors begin by outlining a typical large-scale feed recommender system, which is usually composed of two independently optimized ranking pipelines: one for organic content and one for ads. Organic items are the primary driver of user engagement, as users interact with them based on intrinsic interest in the content or its creator. Accordingly, the objective of organic ranking systems is to maximize engagement-related signals such as clicks, dwell time, or other user actions. Ads, in contrast, are the main source of monetization, and ad ranking systems are typically optimized for revenue. A common objective for ads ranking is expected revenue per impression, often modeled as bid × pCTR (predicted click-through rate).
 
-## Utility Framework
+A key challenge is that engagement metrics from organic ranking and revenue-based metrics from ads ranking are not directly comparable, as they live on different scales and represent fundamentally different utilities. For organic content, the system cares primarily about predicted user engagement, whereas for ads, the critical metric is expected revenue. This mismatch motivates the need for a dedicated blending layer.
 
-- **Engagement utility** `u`: Proxy for user value (both organic and ads)  
-- **Revenue utility** `r`: Proxy for monetization (ads only)
-- **Global constraint** `C`: Minimum acceptable engagement for the whole feed
+The blending layer takes the two separately ranked lists—organic items and ads—and produces a single unified feed that balances engagement and revenue. The paper emphasizes several practical requirements for this layer: it must operate under very low latency, respect the relative ordering produced by the upstream organic and ads rankers, and be easy to adapt and iterate on as business objectives evolve. While a fully unified ranking approach—jointly ranking organic and ads from the start—might appear conceptually simpler, the authors note that this is often impractical in real-world systems. In large tech companies, organic ranking and ads ranking are typically owned by different teams, optimized against different north-star metrics. Introducing a single unified objective would significantly increase system complexity and coordination costs.
 
-## Key Innovation: Shadow Bid (α)
+For these reasons, the paper advocates for a two-stage architecture with a lightweight, post-ranking blending step, and formulates ads allocation in the feed as a constrained optimization problem within this blending layer.
 
-Instead of solving a hard 0–1 integer optimization, use a **Lagrange multiplier** `α`:
+![Overview to rank organic content and ads together](../../images/posts/ads-allocation-constrained-optimization_1.png)
 
-```
-Ad wins if: r_ad + α·u_ad > α·u_org
-```
+## My Takeaway
 
-**Intuition**:
-- Large `α` → value engagement more → fewer/higher quality ads
-- Small `α` → value revenue more → aggressive monetization
-
-## Practical Algorithm
-
-**Greedy merge** of two ranked lists with business constraints:
-- **Top slot restriction**: First ad can't appear above position k
-- **Min gap**: Two ads must be ≥ g items apart
-- **Ad load limits**: Max fraction of ads in feed
-
-## Corrections for Feed Dynamics
-
-### Position Bias
-Items higher in feed get more attention. Use position weighting:
-```
-w_k = 1 / log2(k + 1)
-```
-
-### Gap Effect (Ad Fatigue)
-Ad CTR depends on distance from previous ad:
-```
-effective_value = θ(d) · (r_ad + α·u_ad)
-```
-where `d` = gap to previous ad, `θ(d)` = discount factor
-
-## Evaluation Approach
-
-**Offline**: Replay simulation with metrics:
-- **DCR**: Discounted Cumulative Revenue
-- **DCE**: Discounted Cumulative Engagement
-
-Sweep `α` to get Pareto frontier between revenue and engagement.
-
-**Online**: A/B test promising `α` values from offline analysis.
-
-## Calibration Strategy
-
-When upstream models change:
-- **Isotonic regression**: When score is calibrated probability
-- **Thompson Sampling**: Find global calibration factor for composite utility
-
-Goal: Match key metric between new model and baseline.
-
-## Key Insights
-
-1. **Shadow bid `α`** provides intuitive control knob for engagement/revenue tradeoff
-2. **Position bias and gap effects** are critical in feeds (independence assumption breaks)
-3. **Hard rules** (top-slot, min-gap) are practical but potentially suboptimal
-4. **Offline replay + online calibration** workflow keeps system stable
-
-## Further Thoughts
-
-**Can organic items have a "bid"?**  
-Yes - estimate long-term value from user signals (e.g., session duration) and derive item value scale. `α` becomes the exchange rate between short-term revenue and long-term user value.
-
-**Are hard rules optimal?**  
-No - different users have different ad tolerance. More advanced: model effects directly and let policy adapt by user/context.
+## My Questions

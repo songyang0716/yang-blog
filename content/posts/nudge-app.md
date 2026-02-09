@@ -22,13 +22,12 @@ Nudge applies the science of spaced repetition to your everyday learning. By sch
 - **Smart Review Scheduling**: Uses spaced repetition algorithms to determine the optimal time for your next review
 - **Topic Organization**: Keep your learning materials organized by subject or project
 - **Timely Reminders**: Get notified when it's time to review, so you never miss the optimal learning window
-- **Progress Tracking**: See your retention improve over time as you consistently review
 
 ## Try It Out
 
 [Github Repo](https://github.com/songyang0716/nudge/tree/main) 
 
-## How It Works
+## How It Looks
 
 ![Current backlog items](../../images/posts/nudge_1.png)
 *Your backlog of items waiting for review*
