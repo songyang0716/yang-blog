@@ -8,9 +8,13 @@ tags: ["ads-allocation", "optimization", "paper-review"]
 > **Paper Review**: *Ads Allocation in Feed via Constrained Optimization* (LinkedIn, 2020)
 
 ## The Problem
-Ad allocation is typically the final step of a recommender system. At this stage, organic content and ads are mixed together and delivered to users. This paper focuses on improving this final allocation process. It addresses two key subproblems. First, how should we assign comparable values to organic content and ads, given that they are usually ranked separately and optimized for different objectives? To rank them together, their scores need to be aligned on the same scale. Second, once these items share a common ranking score, how can we allocate them across available slots in a way that maximizes the total value of the final layout?
+Ad allocation is typically the final step of a recommender system. At this stage, organic content and ads are mixed together and delivered to users. This paper focuses on improving this final allocation process. This step alwasy involves two subproblems. 
 
-This paper focuses specifically on addressing the second subproblem, and the application is theLinkedIn feed.
+First, how should we assign comparable values to organic content and ads, given that they are usually ranked separately and optimized for different objectives? To rank them together, their scores need to be aligned on the same scale. 
+
+Second, once these items share a common ranking score, how can we allocate them across available slots in a way that maximizes the total value of the final layout?
+
+This paper focuses specifically on the second subproblem, applying it to the LinkedIn feed.
 
 ## Background
 
