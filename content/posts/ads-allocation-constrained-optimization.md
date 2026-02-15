@@ -7,7 +7,7 @@ tags: ["ads-allocation", "optimization", "paper-review"]
 
 > **Paper Review**: *Ads Allocation in Feed via Constrained Optimization* (LinkedIn, 2020)
 
-## The Problem
+## 1. The Problem
 Ad allocation is typically the final step of a recommender system. At this stage, organic content and ads are mixed together and delivered to users. This paper focuses on improving this final allocation process. This step alwasy involves two subproblems. 
 
 First, how should we assign comparable values to organic content and ads, given that they are usually ranked separately and optimized for different objectives? To rank them together, their scores need to be aligned on the same scale. 
@@ -16,7 +16,7 @@ Second, once these items share a common ranking score, how can we allocate them 
 
 This paper focuses specifically on the second subproblem, applying it to the LinkedIn feed.
 
-## Paper Content
+## 2. Paper Content
 ### Background
 The authors begin by outlining a typical large-scale feed recommender system, which is usually composed of two independently optimized ranking pipelines: one for organic content and one for ads. Organic items are the primary driver of user engagement, as users interact with them based on intrinsic interest in the content or its creator. Accordingly, the objective of organic ranking systems is to maximize engagement-related signals such as clicks, dwell time, or other user actions. Ads, in contrast, are the main source of monetization, and ad ranking systems are typically optimized for revenue. A common objective for ads ranking is expected revenue per impression, often modeled as bid × pCTR (predicted click-through rate).
 
@@ -30,14 +30,14 @@ For these reasons, the paper advocates for a two-stage architecture with a light
 
 The authors also introduce business guardrails to prevent unintended member experiences. These guardrails take the form of heuristic constraints, such as (1) a top-slot constraint, which restricts ads from appearing within the first x positions of the feed, and (2) a minimum-gap constraint, which enforces a minimum separation between two consecutive ads.
 
-### Formulation and Algorithm
+### 2.1 Formulation and Algorithm
 
 Next, the authors frame the problem as a constrained optimization task. For each slot $i$, they introduce a binary decision variable $x_i$ that indicates whether an ad is placed in that slot. The objective is to maximize the total revenue per request, subject to a constraint that total user engagement is greater than or equal to a constant $C$.
 
 The constant $C$ is a business decision and can be chosen as a fraction of the maximum achievable engagement—for example, the engagement level when no ads are shown. To solve this problem online as new requests arrive, the authors apply a Lagrangian dual formulation to derive an “optimal” primal serving policy. Finally, they incorporate the two business guardrails discussed earlier into the serving plan to ensure the final allocation satisfies platform requirements.
 
 ![Constrained Optimization Framing per Request](../../images/posts/ads-allocation-constrained-optimization_2.png)
-In the above formulation, the objective is to maximize revenue across all impressions, spanning multiple requests and multiple slots per request. The term $\frac{w}{2}\lVert x \rVert^2$ is added to enforce strong convexity, which makes the conversion from the dual problem back to the primal problem more tractable.
+In the above formulation, the objective is to maximize revenue across all impressions, spanning multiple requests and multiple slots per request. The term $\frac{w}{2}\lVert x \rVert^2$ is added to enforce strong convexity, which makes the conversion from the dual problem back to the primal problem more tractable and the optimal value of the primal problem equals the optimal value of the dual problem..
 
 After solving the Lagrangian dual, the optimal policy is to place an ad in slot $i$ whenever $r_i^a + \alpha u_i^a - \alpha u_i^o > 0.$. Here, $\alpha$ is the dual variable associated with the engagement constraint and is determined by the choice of $C$. In simpler terms, if the revenue from showing an ad plus its engagement value—scaled by $\alpha$ exceeds that of the organic candidate, the platform will choose to display the ad. Prior to this stage, both organic and ad candidates have already been ranked separately, so the “next” candidate from each list is already determined when this comparison is made.
 
@@ -64,9 +64,20 @@ Below is the complete serving plan, built on the optimal policy (derived from La
 
 ![Serving Plan](../../images/posts/ads-allocation-constrained-optimization_4.png)
 
-### Experimentation
+### 2.2 Experiments
 
-## My Takeaway
+#### Offline Evaluation
+The idea of offline replay is to leverage historical logs that contain the full set of ad and organic candidates for each request. Using these logs, the proposed algorithm can be replayed offline to evaluate revenue and engagement under different configurations—such as varying the magnitude of the gap-effect parameter $\theta_d$ and the dual variable $\alpha$.
+
+Notably, the authors also inject hypothetical gap effects into the historical metrics calculation. When computing cumulative, request-level revenue and engagement, they explicitly account for position-dependent discounting.
+
+![Offline evaluation](../../images/posts/ads-allocation-constrained-optimization_5.png)
+
+
+#### Online Experiment
+The online experiments directly measure the two objectives using live traffic, with different values of $\theta_d$ and $\alpha$ applied to randomly assigned user cohorts. The authors show that re-ranking with the gap-effect correction is significantly more effective than the baseline approach. 
+
+## 3. My Takeaway
 
 From the paper, this appears to be one of the first industry works to openly discuss ad–organic allocation practices in internet feed systems. The proposed serving plan is relatively simple to implement, and the framework for reasoning about tradeoffs between revenue and engagement is clear and intuitive.
 
@@ -84,6 +95,6 @@ This also points to a broader optimization direction in recommender and advertis
 
 The original paper places the constraint at the total impression level, which may align with platform-level preferences. However, one might ask whether applying constraints at the user level which ensuring a more consistent minimum threshold of experience quality across users would be more appropriate.
 
-## My Questions
+## 4. My Questions
 
 What are effective ways to define engagement utility? Is a single engagement metric sufficient to capture the tradeoffs in user experience? And how should short-term engagement signals be connected to long-term user satisfaction and retention?
