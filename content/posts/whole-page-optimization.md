@@ -59,7 +59,6 @@ where $\phi(c_i, u)$ captures the contextual relevance of the widget, and $\Delt
 At a high level, this formulation decomposes page optimization into additive, widget-level contributions while naturally capturing interaction effects and diminishing returns. A key benefit of this approach is that content diversity is incorporated directly into the value model as explicit features, where the marginal gain of displaying a widget decreases as more widgets from the same categories have already been shown. This structure is particularly well suited for greedy serving algorithms: the submodular property ensures that the greedy solution remains close to the globally optimal widget ordering.
 
 
-
 ### 2.2 Serving Algorithm
 
 
