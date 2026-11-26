@@ -71,7 +71,7 @@ A subtle but important point: the potential outcomes, and therefore the treatmen
 
 A correct standard error must capture both sources of variation. It answers the question: had we drawn a different sample and assigned treatment differently, how different would the estimate be?
 
-**Sampling process.** Let $R_{in} \in \{0, 1\}$ indicate whether unit $i$ is sampled. Sampling happens in two stages: each cluster is selected with probability $P_{Cn}$, and then each unit in a selected cluster is sampled with probability $P_{Un}$. Formally:
+**Sampling process.** Let $R_{in} \in \\{0, 1\\}$ indicate whether unit $i$ is sampled. Sampling happens in two stages: each cluster is selected with probability $P_{Cn}$, and then each unit in a selected cluster is sampled with probability $P_{Un}$. Formally:
 
 $$
 \Pr(R_{in} = 1) = P_{Cn} P_{Un}, \qquad \Pr(R_{in} = 1 \mid R_{jn} = 1, C_{in} = C_{jn}) = P_{Un}
@@ -82,7 +82,7 @@ $P_{Cn} = 1$ means every cluster is included, which is equivalent to simple rand
 **Assignment process.** Assignment also has two stages. First, each cluster $c$ draws its own treatment probability $q_{cn} \in [0, 1]$ from a distribution with mean $\mu_n = 1/2$ and variance $\sigma_n^2$. Second, each unit in the cluster is treated independently with probability $q_{cn}$. The variance $\sigma_n^2$ is the key parameter:
 
 - $\sigma_n^2 = 0$: every cluster has the same probability, so this is ordinary unit-level randomization.
-- $\sigma_n^2 = 1/4$: $q_{cn} \in \{0, 1\}$, so all units in a cluster share the same assignment. This is a pure cluster-randomized experiment.
+- $\sigma_n^2 = 1/4$: $q_{cn} \in \\{0, 1\\}$, so all units in a cluster share the same assignment. This is a pure cluster-randomized experiment.
 
 Both moments in the assumption follow directly from this two-stage process. Marginally, each unit is treated with probability equal to the average of the $q_{cn}$, which is $\mu_n = 1/2$. But two units in the *same* cluster share the same $q_{cn}$, so
 

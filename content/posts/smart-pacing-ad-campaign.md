@@ -41,7 +41,7 @@ The paper focuses on the two most common campaign types:
 
 Let $B$ be the campaign's budget and $G$ its performance goal (if any). A spending plan splits the budget across $K$ time slots, $\mathbf{B} = (B^{(1)}, \dots, B^{(K)})$ with $\sum_t B^{(t)} = B$.
 
-For each ad request $i$, let $r_i$ be the pacing rate, $s_i \in \{0,1\}$ whether the campaign bids (with $\Pr(s_i = 1) = r_i$), $w_i$ whether it wins, $c_i$ the cost, and $q_i$ whether the user responds (e.g. clicks). Then the total cost and the performance of the campaign are
+For each ad request $i$, let $r_i$ be the pacing rate, $s_i \in \\{0,1\\}$ whether the campaign bids (with $\Pr(s_i = 1) = r_i$), $w_i$ whether it wins, $c_i$ the cost, and $q_i$ whether the user responds (e.g. clicks). Then the total cost and the performance of the campaign are
 
 $$
 C = \sum_i s_i \times w_i \times c_i, \qquad P = \frac{C}{\sum_i s_i \times w_i \times q_i}
